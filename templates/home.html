@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Learn Proctor | Online Learning</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+    <div class="nav-container">
+        <div class="logo">E-Learn Proctor</div>
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="{% url 'login' %}" class="login-btn">Login</a>
+        </nav>
+    </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero reveal">
+    <div class="hero-container">
+        <div class="hero-text">
+            <h1>Smart Online Learning & Secure Examinations</h1>
+            <p>
+                Intelligent e-learning platform with AI-based proctoring,
+                automated evaluation and certification.
+            </p>
+            <a href="{% url 'login' %}" class="btn-primary">Get Started</a>
+        </div>
+
+        <div class="hero-image">
+            <img src="{% static 'images/hero.png' %}" alt="E-Learning">
+        </div>
+    </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section class="features reveal" id="features">
+    <h2>Key Features</h2>
+
+    <div class="feature-grid">
+
+        <div class="card reveal">
+            <div class="icon-box">
+                <img src="{% static 'images/video.jpg' %}" alt="Video Learning">
+            </div>
+            <h3>Video Learning</h3>
+            <p>Structured learning through high-quality course videos.</p>
+        </div>
+
+        <div class="card reveal">
+            <div class="icon-box">
+                <img src="{% static 'images/assignment.jpg' %}" alt="Assignments">
+            </div>
+            <h3>Assignments & Exams</h3>
+            <p>MCQ and descriptive assessments with automation.</p>
+        </div>
+
+        <div class="card reveal">
+            <div class="icon-box">
+                <img src="{% static 'images/proctor.jpg' %}" alt="Proctoring">
+            </div>
+            <h3>AI Proctoring</h3>
+            <p>Head movement, tab switch & mobile detection.</p>
+        </div>
+
+        <div class="card reveal">
+            <div class="icon-box">
+                <img src="{% static 'images/certifacate.jpg' %}" alt="Certificate">
+            </div>
+            <h3>Certificates</h3>
+            <p>Automatic certificate and report generation.</p>
+        </div>
+
+    </div>
+</section>
+
+{% for course in courses %}
+<div class="course-card">
+    <img src="{{ course.image.url }}" alt="{{ course.title }}">
+
+    <div class="course-content">
+        <h3>{{ course.title }}</h3>
+        <p>{{ course.description|truncatechars:80 }}</p>
+
+        <p><strong>Tutor:</strong> {{ course.tutor.name }}</p>
+
+        <div class="course-info">
+            <span>⭐ {{ course.rating }}</span>
+            <span>⏱ {{ course.duration }}</span>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<!-- ================= ABOUT ================= -->
+<section class="about reveal" id="about">
+    <h2>About the Platform</h2>
+    <p>
+        E-Learn Proctor integrates digital learning, assessment,
+        AI-powered examination monitoring and certification into
+        a single scalable platform.
+    </p>
+</section>
+
+
+<footer class="footer reveal">
+    <p>© 2025 E-Learn Proctor. All Rights Reserved.</p>
+</footer>
+
+
+<script src="{% static 'js/home.js' %}"></script>
+
+</body>
+</html>

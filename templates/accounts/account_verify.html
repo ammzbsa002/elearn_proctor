@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OTP Verification</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #5c6bc0, #2da0a8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Montserrat, sans-serif;
+        }
+
+        .otp-card {
+            background: white;
+            padding: 40px;
+            width: 350px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 8px;
+            border: none;
+            background: #eee;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 40px;
+            background: #2da0a8;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div class="otp-card">
+    <h2>OTP Verification</h2>
+    <p>Enter the OTP sent to you</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="otp" placeholder="Enter OTP" required>
+        <button type="submit">Verify OTP</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+from django.contrib import admin
+from django.urls import path, include
+from django.shortcuts import render
+
+
+def home(request):
+    return render(request, 'home.html')
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+
+    path('', home, name='home'),
+
+    # ✅ ALL accounts-related URLs come from accounts/urls.py
+    path('', include('accounts.urls')),
+]

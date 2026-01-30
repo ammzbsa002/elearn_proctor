@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register | E-Learn Proctor</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+
+<div class="register-card">
+    <h2>Create Account</h2>
+    <p class="subtitle">Mobile OTP Verification Required</p>
+
+    <form id="registerForm" method="POST">
+        {% csrf_token %}
+
+        <label>Full Name</label>
+        <input type="text" id="name" name="full_name">
+        <small id="nameMsg"></small>
+
+        <label>Email</label>
+        <input type="text" id="email" name="email">
+        <small id="emailMsg"></small>
+
+        <label>Mobile Number</label>
+        <input type="text" id="mobile" name="mobile">
+        <small id="mobileMsg"></small>
+
+        <label>Password</label>
+        <input type="password" name="password">
+
+        <button type="submit">Send OTP</button>
+    </form>
+</div>
+
+<script src="{% static 'js/register.js' %}"></script>
+</body>
+</html>

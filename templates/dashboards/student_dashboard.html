@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+</head>
+<body>
+
+<h2>Student Dashboard</h2>
+<p>Welcome {{ request.user.full_name }}</p>
+<p>Email: {{ request.user.email }}</p>
+<p>Role: {{ request.user.role }}</p>
+
+<a href="{% url 'login' %}">Logout</a>
+
+</body>
+</html>
