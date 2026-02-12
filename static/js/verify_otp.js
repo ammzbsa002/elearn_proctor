@@ -1,41 +1,80 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const inputs = document.querySelectorAll(".otp-box");
-    const hiddenOtp = document.getElementById("otpValue");
+    /* ================= OTP INPUT LOGIC ================= */
 
-    inputs.forEach((input, index) => {
-        input.addEventListener("input", () => {
-            if (input.value.length === 1 && index < inputs.length - 1) {
-                inputs[index + 1].focus();
+    const otpBoxes = document.querySelectorAll(".otp-box");
+    const otpHidden = document.getElementById("otpValue");
+    const otpForm = document.getElementById("otpForm");
+
+    // Auto move, numeric only, backspace
+    otpBoxes.forEach((box, index) => {
+
+        box.addEventListener("input", () => {
+
+            // Allow only numbers
+            box.value = box.value.replace(/[^0-9]/g, '');
+
+            // Move to next box
+            if (box.value && index < otpBoxes.length - 1) {
+                otpBoxes[index + 1].focus();
             }
-            updateOtp();
         });
 
-        input.addEventListener("keydown", (e) => {
-            if (e.key === "Backspace" && !input.value && index > 0) {
-                inputs[index - 1].focus();
+        box.addEventListener("keydown", (e) => {
+
+            // Backspace → move to previous
+            if (e.key === "Backspace" && !box.value && index > 0) {
+                otpBoxes[index - 1].focus();
             }
         });
     });
 
-    function updateOtp() {
-        hiddenOtp.value = Array.from(inputs).map(i => i.value).join('');
-    }
+    // Combine OTP before submit
+    otpForm.addEventListener("submit", (e) => {
 
-    /* ================= TIMER ================= */
-    const timerEl = document.getElementById("timer");
-    let time = 120;
+        let otp = "";
 
-    const countdown = setInterval(() => {
-        let min = Math.floor(time / 60);
-        let sec = time % 60;
-        timerEl.textContent = `${min}:${sec < 10 ? '0' : ''}${sec}`;
-        time--;
+        otpBoxes.forEach(box => {
+            otp += box.value;
+        });
 
-        if (time < 0) {
-            clearInterval(countdown);
-            timerEl.textContent = "Expired";
+        // Validate full OTP
+        if (otp.length !== 6) {
+            e.preventDefault();
+            alert("Please enter the complete 6-digit OTP");
+            return;
         }
-    }, 1000);
+
+        otpHidden.value = otp;
+    });
+
+
+    /* ================= OTP TIMER (2 MINUTES) ================= */
+
+    const timerEl = document.getElementById("timer");
+    let timeLeft = 120;
+
+    if (timerEl) {
+
+        const countdown = setInterval(() => {
+
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+
+            timerEl.textContent =
+                `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(countdown);
+                timerEl.textContent = "Expired";
+
+                // Disable inputs when expired
+                otpBoxes.forEach(box => box.disabled = true);
+            }
+
+        }, 1000);
+    }
 
 });

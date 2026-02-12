@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ course.title }}</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:'Montserrat',sans-serif;
+    background:#eef2f7;
+}
+
+/* HEADER */
+
+.header{
+    background:#0f172a;
+    color:white;
+    padding:40px;
+}
+
+.header h1{
+    margin:0;
+}
+
+/* Layout */
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:40px;
+}
+
+/* Module Card */
+
+.module{
+    background:white;
+    padding:25px;
+    border-radius:14px;
+    margin-bottom:25px;
+    box-shadow:0 8px 18px rgba(0,0,0,.05);
+}
+
+/* Lesson */
+
+.lesson{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px;
+    border-bottom:1px solid #eee;
+}
+
+.lesson:last-child{
+    border-bottom:none;
+}
+
+/* Buttons */
+
+.start-btn{
+    background:#2563eb;
+    color:white;
+    padding:8px 14px;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.start-btn:hover{
+    background:#1d4ed8;
+}
+
+/* LOCKED BUTTON */
+
+.locked{
+    background:gray;
+    color:white;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:14px;
+}
+
+/* ENROLL BUTTON */
+
+.enroll-btn{
+    background:#16a34a;
+    color:white;
+    border:none;
+    padding:12px 22px;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+.enroll-btn:hover{
+    background:#15803d;
+}
+
+.empty{
+    color:gray;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TOP -->
+
+<div class="header">
+<h1>{{ course.title }}</h1>
+<p>{{ course.description }}</p>
+
+<!-- ✅ Enrollment Logic -->
+
+{% if request.user == course.tutor.user %}
+    <p><strong>You are the instructor of this course.</strong></p>
+
+{% elif request.user in course.students.all %}
+    <p>✅ You are enrolled in this course.</p>
+
+{% else %}
+    <a href="{% url 'enroll_course' course.id %}">
+        <button class="enroll-btn">Enroll Now</button>
+    </a>
+{% endif %}
+
+</div>
+
+
+<!-- CONTENT -->
+
+<div class="container">
+
+<h2>Course Modules</h2>
+
+{% for module in modules %}
+
+<div class="module">
+
+<h3>{{ module.title }}</h3>
+
+{% for lesson in module.lessons.all %}
+
+<div class="lesson">
+
+<span>🎬 {{ lesson.title }}</span>
+
+<!-- ✅ LOCK LESSONS -->
+
+{% if request.user == course.tutor.user or request.user in course.students.all %}
+
+    <a href="{% url 'courses:lesson_detail' lesson.id %}" class="start-btn">
+        Start Lesson →
+    </a>
+
+{% else %}
+
+    <span class="locked">🔒 Enroll to unlock</span>
+
+{% endif %}
+
+</div>
+
+{% empty %}
+
+<p class="empty">No lessons yet</p>
+
+{% endfor %}
+
+</div>
+
+{% empty %}
+
+<p>No modules available.</p>
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>

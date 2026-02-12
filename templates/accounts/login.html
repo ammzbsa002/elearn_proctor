@@ -58,27 +58,34 @@
 
                 
 
-               <div class="password-wrapper">
+               <div class="password-wrapper" style="position:relative;">
+
     <input
         type="password"
         id="regPassword"
         name="password"
         placeholder="Password"
         required
+        style="padding-right:45px;"
     >
 
-    <span class="tooltip-icon">?</span>
+    <!-- ✅ Eye Button -->
+    <span onclick="togglePassword()"
+          id="eyeIcon"
+          style="
+            position:absolute;
+            right:10px;
+            top:50%;
+            transform:translateY(-50%);
+            cursor:pointer;
+            font-size:18px;">
+        👁️
+    </span>
 
-    <div class="password-tooltip">
-        <strong>Password must contain:</strong>
-        <ul>
-            <li>At least 8 characters</li>
-            <li>One uppercase letter</li>
-            <li>One number</li>
-            <li>One special character</li>
-        </ul>
-    </div>
+   
+    
 </div>
+
 
 <div class="strength-bar">
     <div id="regStrengthFill"></div>
@@ -86,11 +93,13 @@
 <small id="regStrengthText"></small>
 
  <label class="terms">
-                    <input type="checkbox" required>
+                    <input type="checkbox" name="terms" required>
+
                     I agree to Terms & Conditions
                 </label>
 
-<button type="submit" id="regSubmit" disabled>
+<button type="submit" id="regSubmit">
+
     Sign Up
 </button>
 
@@ -102,19 +111,50 @@
         </div>
 
         <!-- ================= LOGIN ================= -->
-        <div class="form-container sign-in-container">
-            <form method="POST" action="{% url 'login' %}">
-                {% csrf_token %}
-                <h1>Sign In</h1>
-                <span>Use your registered email</span>
+<!-- ================= LOGIN ================= -->
 
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
+<div class="form-container sign-in-container">
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <h1>Sign In</h1>
+        <span>Use your registered email</span>
 
-                <a href="{% url 'password_recovery' %}">Forgot password?</a>
-                <button type="submit">Sign In</button>
-            </form>
-        </div>
+
+    <input type="email" name="email" placeholder="Email" required>
+
+    <!-- PASSWORD FIELD (MATCHES REGISTER DESIGN) -->
+    <div class="password-wrapper" style="position:relative;">
+
+        <input
+            type="password"
+            id="loginPassword"
+            name="password"
+            placeholder="Password"
+            required
+            style="padding-right:45px;"
+        >
+
+        <!-- Eye Button -->
+        <span onclick="toggleLoginPassword()"
+              id="loginEyeIcon"
+              style="
+                position:absolute;
+                right:10px;
+                top:50%;
+                transform:translateY(-50%);
+                cursor:pointer;
+                font-size:18px;">
+            👁️
+        </span>
+
+    </div>
+
+    <a href="{% url 'password_recovery' %}">Forgot password?</a>
+    <button type="submit">Sign In</button>
+</form>
+
+
+</div>
 
         <!-- ================= OVERLAY ================= -->
         <div class="overlay-container">

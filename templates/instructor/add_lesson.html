@@ -1,0 +1,68 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Lesson</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            background:#f4f6fb;
+        }
+
+        .card{
+            width:500px;
+            margin:60px auto;
+            background:white;
+            padding:30px;
+            border-radius:12px;
+            box-shadow:0 10px 25px rgba(0,0,0,.08);
+        }
+
+        input, textarea{
+            width:100%;
+            padding:10px;
+            margin-top:6px;
+            margin-bottom:16px;
+        }
+
+        button{
+            background:#2563eb;
+            color:white;
+            border:none;
+            padding:12px;
+            width:100%;
+            border-radius:8px;
+            font-size:16px;
+        }
+
+        button:hover{
+            background:#1e40af;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h2>🎥 Add Lesson</h2>
+
+    <!-- ⭐ MOST IMPORTANT LINE -->
+    <form method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Save Lesson
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

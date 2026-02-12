@@ -1,0 +1,45 @@
+<h1>My Courses</h1>
+
+{% for course in courses %}
+
+<div style="border:1px solid #ddd;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:10px;">
+
+    <h2>{{ course.title }}</h2>
+
+    <a href="{% url 'courses:add_module' course.id %}">
+        ➕ Add Module
+    </a>
+
+    <hr>
+
+    {% for module in course.modules.all %}
+
+        <div style="margin-left:20px;">
+
+            <h4>📘 {{ module.title }}</h4>
+
+            <!-- ⭐ THIS BUTTON IS KEY -->
+            <a href="{% url 'courses:add_lesson' module.id %}">
+                ➕ Add Lesson
+            </a>
+
+            <ul>
+                {% for lesson in module.lessons.all %}
+                    <li>{{ lesson.title }}</li>
+                {% empty %}
+                    <li>No lessons yet</li>
+                {% endfor %}
+            </ul>
+
+        </div>
+
+    {% empty %}
+        <p>No modules added yet.</p>
+    {% endfor %}
+
+</div>
+
+{% endfor %}

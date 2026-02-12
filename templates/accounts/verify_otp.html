@@ -1,64 +1,162 @@
 {% load static %}
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Verify OTP | E-Learn Proctor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+```
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+```
+
 </head>
 <body>
 
 <div class="otp-wrapper">
     <div class="otp-card">
 
-        <h1>OTP Verification</h1>
-        <p class="subtitle">
-            We’ve sent a 6-digit OTP to<br>
-            <strong>{{ masked_email }}</strong>
-        </p>
+```
+    <h1>OTP Verification</h1>
 
-        {% if messages %}
-            {% for message in messages %}
-                <div class="otp-message {{ message.tags }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
+    <p class="subtitle">
+        We’ve sent a 6-digit OTP to<br>
+        <strong>{{ masked_email }}</strong>
+    </p>
 
-        <form method="POST" id="otpForm">
-            {% csrf_token %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="otp-message {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
 
-            <!-- OTP INPUT BOXES -->
-            <div class="otp-inputs">
-                <input type="text" maxlength="1" class="otp-box">
-                <input type="text" maxlength="1" class="otp-box">
-                <input type="text" maxlength="1" class="otp-box">
-                <input type="text" maxlength="1" class="otp-box">
-                <input type="text" maxlength="1" class="otp-box">
-                <input type="text" maxlength="1" class="otp-box">
-            </div>
+    <form method="POST" id="otpForm">
+        {% csrf_token %}
 
-            <!-- HIDDEN OTP FIELD -->
-            <input type="hidden" name="otp" id="otpValue">
+        <!-- OTP INPUTS -->
+        <div class="otp-inputs">
+            <input type="text" maxlength="1" class="otp-box" autofocus>
+            <input type="text" maxlength="1" class="otp-box">
+            <input type="text" maxlength="1" class="otp-box">
+            <input type="text" maxlength="1" class="otp-box">
+            <input type="text" maxlength="1" class="otp-box">
+            <input type="text" maxlength="1" class="otp-box">
+        </div>
 
-            <!-- TIMER -->
-            <div class="otp-timer">
-                OTP expires in <span id="timer">02:00</span>
-            </div>
+        <!-- Hidden field sent to Django -->
+        <input type="hidden" name="otp" id="otpValue">
 
-            <button type="submit" class="btn-primary">
-                Verify OTP
-            </button>
-        </form>
+        <div class="otp-timer">
+            OTP expires in <span id="timer">02:00</span>
+        </div>
 
-        <p class="resend-text">
-            Didn’t receive OTP? Please check spam.
-        </p>
+        <button type="submit" class="btn-primary">
+            Verify OTP
+        </button>
 
-    </div>
+    </form>
+
+    <p class="resend-text">
+        Didn’t receive OTP? Please check spam.
+    </p>
+
+</div>
+```
+
 </div>
 
-<script src="{% static 'js/verify_otp.js' %}"></script>
+<!-- ✅ BULLETPROOF INLINE SCRIPT -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    const boxes = document.querySelectorAll(".otp-box");
+    const hiddenOtp = document.getElementById("otpValue");
+    const form = document.getElementById("otpForm");
+
+    /* ================= OTP BOX BEHAVIOR ================= */
+
+    boxes.forEach((box, index) => {
+
+        // Only numbers allowed
+        box.addEventListener("input", function() {
+
+            this.value = this.value.replace(/[^0-9]/g, '');
+
+            if (this.value && index < boxes.length - 1) {
+                boxes[index + 1].focus();
+            }
+        });
+
+        // Move backward on backspace
+        box.addEventListener("keydown", function(e) {
+
+            if (e.key === "Backspace" && !this.value && index > 0) {
+                boxes[index - 1].focus();
+            }
+        });
+    });
+
+
+    /* ================= VERY IMPORTANT PART ================= */
+    /* Combine OTP BEFORE submit */
+
+    form.addEventListener("submit", function(e) {
+
+        e.preventDefault(); // stop normal submit
+
+        let otp = "";
+
+        boxes.forEach(box => {
+            otp += box.value;
+        });
+
+        if (otp.length !== 6) {
+            alert("Please enter the full 6-digit OTP");
+            return;
+        }
+
+        hiddenOtp.value = otp;
+
+        console.log("OTP sent to Django:", otp); // Debug
+
+        form.submit(); // submit AFTER setting OTP
+    });
+
+
+
+    /* ================= TIMER ================= */
+
+    const timerEl = document.getElementById("timer");
+    let timeLeft = 120;
+
+    const countdown = setInterval(() => {
+
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+
+        timerEl.textContent =
+            `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+        timeLeft--;
+
+        if (timeLeft < 0) {
+
+            clearInterval(countdown);
+            timerEl.textContent = "Expired";
+
+            boxes.forEach(box => box.disabled = true);
+        }
+
+    }, 1000);
+
+});
+
+</script>
+
 </body>
 </html>

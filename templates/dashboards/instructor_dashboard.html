@@ -1,18 +1,281 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Instructor Dashboard</title>
+<meta charset="UTF-8">
+
+<!-- ⭐ IMPORTANT FOR RESPONSIVE -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Instructor Dashboard | E-Learn Proctor</title>
+
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+<style>
+
+body{
+    margin:0;
+    font-family:'Montserrat',sans-serif;
+    background:#f1f5f9;
+}
+
+.dashboard{
+    display:flex;
+}
+
+/* ===== SIDEBAR ===== */
+
+.sidebar{
+    width:260px;
+    height:100vh;
+    background:#0f172a;
+    color:white;
+    padding:25px;
+    position:fixed;
+    transition:all .3s ease;
+}
+
+.sidebar.collapsed{
+    width:80px;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:40px;
+}
+
+.sidebar a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:white;
+    text-decoration:none;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:12px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.sidebar a:hover{
+    background:#1e293b;
+}
+
+.logout{
+    position:absolute;
+    bottom:30px;
+    width:80%;
+    background:#ef4444;
+}
+
+/* ===== MAIN ===== */
+
+.main{
+    margin-left:260px;
+    padding:40px;
+    width:100%;
+    transition:all .3s ease;
+}
+
+.main.expand{
+    margin-left:80px;
+}
+
+.toggle-btn{
+    font-size:26px;
+    cursor:pointer;
+}
+
+/* ===== TOPBAR ===== */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+/* ===== CARDS ===== */
+
+.card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:14px;
+    box-shadow:0 8px 20px rgba(0,0,0,.05);
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.btn{
+    display:inline-block;
+    margin-top:10px;
+    background:#2563eb;
+    color:white;
+    padding:8px 14px;
+    border-radius:6px;
+    text-decoration:none;
+}
+
+/* ===== PROFILE ===== */
+
+.profile-card{
+    display:none;
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,.05);
+}
+
+.profile-btn{
+    padding:8px 14px;
+    border:none;
+    background:#2563eb;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+</style>
 </head>
+
 <body>
 
-<h2>Instructor Dashboard</h2>
+<div class="dashboard">
 
-<p>Name: {{ request.user.full_name }}</p>
-<p>Email: {{ request.user.email }}</p>
-<p>Role: {{ request.user.role }}</p>
+<!-- ===== SIDEBAR ===== -->
 
-<a href="{% url 'login' %}">Logout</a>
+<div class="sidebar" id="sidebar">
+
+<div class="logo">🎓 E-Learn</div>
+
+<a href="{% url 'instructor_dashboard' %}">
+🏠 <span>Dashboard</span>
+</a>
+
+<a href="{% url 'courses:add_course' %}">
+➕ <span>Add Course</span>
+</a>
+
+<a href="{% url 'courses:instructor_courses' %}">
+📚 <span>Manage Courses</span>
+</a>
+
+<a href="{% url 'assignments:instructor_assignments' %}">
+🧠 <span>Assignments</span>
+</a>
+
+<a onclick="toggleProfile()">
+👤 <span>Profile</span>
+</a>
+
+<a href="{% url 'logout' %}" class="logout">
+🚪 <span>Logout</span>
+</a>
+
+</div>
+
+<!-- ===== MAIN ===== -->
+
+<div class="main" id="main">
+
+<div class="topbar">
+
+<span class="toggle-btn" onclick="toggleSidebar()">☰</span>
+
+<h1>Welcome, {{ request.user.full_name }} 👋</h1>
+
+<button class="profile-btn" onclick="toggleProfile()">
+View Profile
+</button>
+
+</div>
+
+<!-- PROFILE -->
+
+<div class="profile-card" id="profileCard">
+
+<h2>Your Profile</h2>
+
+<p><strong>Name:</strong> {{ request.user.full_name }}</p>
+<p><strong>Email:</strong> {{ request.user.email }}</p>
+<p><strong>Role:</strong> {{ request.user.role }}</p>
+
+</div>
+
+<h2>Instructor Actions</h2>
+
+<div class="card-grid">
+
+<div class="card">
+<h3>➕ Add New Course</h3>
+<p>Create and publish new learning content.</p>
+
+<a href="{% url 'courses:add_course' %}" class="btn">
+Add Course
+</a>
+</div>
+
+<div class="card">
+<h3>📚 Manage Courses</h3>
+<p>Add modules, lessons & content.</p>
+
+<a href="{% url 'courses:instructor_courses' %}" class="btn">
+Manage
+</a>
+</div>
+
+<div class="card">
+<h3>🧠 Assignment Management</h3>
+<p>Create assignments & MCQs.</p>
+
+<a href="{% url 'assignments:instructor_assignments' %}" class="btn">
+Open
+</a>
+</div>
+
+<div class="card">
+<h3>📊 Student Performance</h3>
+<p>Track student progress & scores.</p>
+<a class="btn">Coming Soon</a>
+</div>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+function toggleSidebar(){
+    document.getElementById("sidebar").classList.toggle("collapsed");
+    document.getElementById("main").classList.toggle("expand");
+}
+
+function toggleProfile(){
+    const card=document.getElementById("profileCard");
+
+    card.style.display =
+        card.style.display==="block" ? "none" : "block";
+}
+
+/* Prevent back after logout */
+window.history.pushState(null,null,window.location.href);
+window.onpopstate=function(){
+    window.history.go(1);
+};
+
+</script>
 
 </body>
 </html>

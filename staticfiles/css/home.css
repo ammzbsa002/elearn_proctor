@@ -1,0 +1,218 @@
+/* ================= RESET ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background: #ffffff;
+    color: #333;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+    background: #2596be;
+    padding: 15px 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.nav-links a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 15px;
+}
+
+.login-btn {
+    background: #ffffff;
+    color: #2596be !important;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+/* ================= HERO ================= */
+.hero {
+    background: linear-gradient(to right, #2596be, #3fb0db);
+    padding: 80px 20px;
+}
+
+.hero-container {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 40px;
+}
+
+.hero-text {
+    color: #ffffff;
+}
+
+.hero-text h1 {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.hero-text p {
+    font-size: 18px;
+}
+
+.btn-primary {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background: #ffffff;
+    color: #2596be;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.hero-image img {
+    width: 100%;
+    max-width: 420px;
+    display: block;
+    margin: auto;
+}
+
+/* ================= FEATURES ================= */
+.features {
+    padding: 80px 20px;
+}
+
+.features h2 {
+    text-align: center;
+    color: #2596be;
+    margin-bottom: 40px;
+}
+
+.feature-grid {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+}
+
+/* ICON BOX (THIS FIXES IMAGE ISSUE) */
+/* ================= FEATURE CARD ================= */
+.card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+}
+
+/* IMAGE CONTAINER (DESIGNED BOX) */
+.icon-box {
+    width: 100%;
+    height: 240px;                 /* fixed visual height */
+    background: #f5fbfe;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+
+
+
+
+
+/* ================= ABOUT ================= */
+.about {
+    background: #f5fbfe;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.about h2 {
+    color: #2596be;
+    margin-bottom: 20px;
+}
+
+.about p {
+    max-width: 800px;
+    margin: auto;
+    line-height: 1.6;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+    background: #2596be;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 40px;
+}
+
+.hero-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-image img {
+    width: 100%;
+    max-width: 450px;          /* controls image size */
+    height: auto;
+    object-fit: contain;
+    
+    /* smooth visual effect */
+    animation: floatImage 4s ease-in-out infinite;
+
+    /* improve rendering */
+    image-rendering: auto;
+}
+
+@keyframes floatImage {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

@@ -1,11 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /* ================= OTP TIMER ================= */
+
     const timerEl = document.getElementById("timer");
     let time = 120; // 2 minutes
 
     if (timerEl) {
+
         const countdown = setInterval(() => {
+
             let minutes = Math.floor(time / 60);
             let seconds = time % 60;
 
@@ -18,16 +21,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 clearInterval(countdown);
                 timerEl.textContent = "Expired";
             }
+
         }, 1000);
     }
 
+
     /* ================= PASSWORD STRENGTH ================= */
+
     const pwd = document.getElementById("password");
     const fill = document.getElementById("strengthFill");
     const text = document.getElementById("strengthText");
 
     if (pwd && fill && text) {
+
         pwd.addEventListener("input", () => {
+
             let val = pwd.value;
             let score = 0;
 
@@ -45,36 +53,61 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+
     /* ================= RESEND OTP ================= */
+
     const resendBtn = document.getElementById("resendOtp");
+
     if (resendBtn) {
         resendBtn.addEventListener("click", () => {
-            window.location.reload(); // triggers OTP resend via backend
+            window.location.reload();
         });
     }
 
+
     /* ================= SUCCESS REDIRECT TIMER ================= */
-    /*
-        This runs ONLY if success popup exists
-        Does NOT affect login / OTP / strength / resend logic
-    */
 
-    const successPopup = document.getElementById("successPopup");
-    const redirectText = document.getElementById("redirectTimer");
-    let redirectSeconds = 3;
+    // 🔥 THIS MUST MATCH YOUR HTML ID
+    const successPopup = document.getElementById("successOverlay");
 
-    if (successPopup && redirectText) {
-        redirectText.textContent = redirectSeconds;
+    if (successPopup) {
+
+        let seconds = 3;
+
+        const redirectText = successPopup.querySelector("p");
 
         const redirectInterval = setInterval(() => {
-            redirectSeconds--;
-            redirectText.textContent = redirectSeconds;
 
-            if (redirectSeconds === 0) {
+            seconds--;
+
+            if (seconds > 0) {
+
+                redirectText.textContent =
+                    `Redirecting to login in ${seconds} seconds...`;
+
+            } else {
+
                 clearInterval(redirectInterval);
-                window.location.href = "/login/";
+
+                // ✅ PROFESSIONAL redirect
+                window.location.replace("/login/");
             }
+
         }, 1000);
     }
 
 });
+
+function togglePassword() {
+
+    const passwordField = document.getElementById("regPassword");
+    const eyeIcon = document.getElementById("eyeIcon");
+
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        eyeIcon.textContent = "🙈";
+    } else {
+        passwordField.type = "password";
+        eyeIcon.textContent = "👁️";
+    }
+}

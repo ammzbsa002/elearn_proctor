@@ -1,15 +1,22 @@
-# Environment variables
-.env
-
-# Django
-db.sqlite3
-staticfiles/
-media/
-
 # Python
 __pycache__/
 *.pyc
 
-# IDE
+# Virtual environment
+venv/
+env/
+
+# Database
+db.sqlite3
+
+# Secrets
+.env
+
+# Media
+media/
+
+# VS Code
 .vscode/
-.idea/
+
+# Mac
+.DS_Store

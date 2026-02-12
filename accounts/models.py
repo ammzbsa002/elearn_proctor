@@ -29,8 +29,12 @@ class User(AbstractUser):
     mobile = models.CharField(max_length=10, default='')
     registration_number = models.CharField(
     max_length=50,
-    unique=True
+    unique=True,
+    blank=False,
+    null=False
 )
+
+
     email = models.EmailField(max_length=191, unique=True)
 
     college_name = models.CharField(max_length=200, default='')  # 👈 FIX HERE

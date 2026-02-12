@@ -1,0 +1,31 @@
+<h1>{{ lesson.title }}</h1>
+
+<!-- VIDEO -->
+{% if lesson.video_url %}
+
+<div style="margin-bottom:20px;">
+
+    <iframe width="800"
+            height="450"
+            src="{{ lesson.video_url }}"
+            frameborder="0"
+            allowfullscreen>
+    </iframe>
+
+</div>
+
+{% endif %}
+
+<!-- PDF -->
+{% if lesson.notes_file %}
+
+<a href="{{ lesson.notes_file.url }}"
+   target="_blank">
+
+   📄 Download Notes
+
+</a>
+
+{% endif %}
+
+<p>{{ lesson.content }}</p>

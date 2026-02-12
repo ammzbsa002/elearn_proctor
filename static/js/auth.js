@@ -13,6 +13,38 @@ if (signUpButton && signInButton && container) {
     });
 }
 
+function toggleLoginPassword() {
+
+
+const password = document.getElementById("loginPassword");
+const icon = document.getElementById("loginEyeIcon");
+
+if (password.type === "password") {
+    password.type = "text";
+    icon.textContent = "🙈";
+} else {
+    password.type = "password";
+    icon.textContent = "👁️";
+}
+
+
+}
+
+
+function togglePassword() {
+
+    const passwordField = document.getElementById("regPassword");
+    const eyeIcon = document.getElementById("eyeIcon");
+
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        eyeIcon.textContent = "🙈";
+    } else {
+        passwordField.type = "password";
+        eyeIcon.textContent = "👁️";
+    }
+}
+
 // ================= REGISTER PASSWORD STRENGTH =================
 const regPwd = document.getElementById("regPassword");
 const regFill = document.getElementById("regStrengthFill");

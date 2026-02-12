@@ -1,0 +1,140 @@
+/* ================= RESET ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ================= BODY ================= */
+body {
+    min-height: 100vh;
+    background: linear-gradient(to right, #2596be, #3fb0db);
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    background: #1f7fa3;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    height: 100%;
+    margin: auto;
+    padding: 0 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.nav-links a {
+    color: #ffffff;
+    margin-left: 25px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* ================= REGISTER WRAPPER ================= */
+.register-wrapper {
+    min-height: calc(100vh - 70px);
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ================= REGISTER CARD ================= */
+.register-card {
+    background: #ffffff;
+    width: 600px;
+    padding: 40px 45px;
+    border-radius: 14px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+}
+
+/* ================= TEXT ================= */
+.register-card h2 {
+    text-align: center;
+    color: #2596be;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+/* ================= FORM ================= */
+.form-group {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* ================= BUTTON ================= */
+.btn-register {
+    width: 100%;
+    padding: 12px;
+    background: #2596be;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.btn-register:hover {
+    background: #1f7fa3;
+}
+
+/* ================= ERROR ================= */
+.error {
+    margin-top: 12px;
+    color: red;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+    .register-card {
+        width: 90%;
+    }
+
+    .form-group {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group label {
+        margin-bottom: 5px;
+    }
+}
