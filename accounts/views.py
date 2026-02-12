@@ -228,7 +228,18 @@ def verify_otp(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @never_cache
 def student_dashboard(request):
-    return render(request, "dashboards/student_dashboard.html")
+
+    enrolled_courses = Course.objects.filter(
+        students=request.user
+    ).select_related('tutor')
+
+    print("LOGGED USER:", request.user)
+    print("ENROLLED COURSES:", enrolled_courses)
+
+    return render(request, "dashboards/student_dashboard.html", {
+        "courses": enrolled_courses
+    })
+
 
 
 @login_required

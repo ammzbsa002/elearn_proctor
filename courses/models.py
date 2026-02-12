@@ -30,12 +30,16 @@ class Course(models.Model):
 
     image = models.ImageField(upload_to='courses/')
     created_at = models.DateTimeField(auto_now_add=True)
+    is_published = models.BooleanField(default=False)
+
 
     # ✅ ENROLLMENT FEATURE
     students = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         related_name='enrolled_courses',
         blank=True
+        
+    
     )
 
     def __str__(self):

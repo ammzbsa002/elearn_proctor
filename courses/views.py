@@ -132,7 +132,7 @@ def enroll_course(request, course_id):
     if not course.students.filter(id=request.user.id).exists():
         course.students.add(request.user)
 
-    return redirect('student_courses')
+    return redirect('courses:student_courses')
 
 
 # =====================================
@@ -230,3 +230,17 @@ def lesson_detail(request, pk):
         "student/lesson_detail.html",
         {"lesson": lesson}
     )
+
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def explore_courses(request):
+
+    courses = Course.objects.exclude(
+        students=request.user
+    ).select_related('tutor')
+
+    return render(request, "student/explore_courses.html", {
+        "courses": courses
+    })
