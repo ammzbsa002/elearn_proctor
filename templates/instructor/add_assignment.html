@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Create Assignment</title>
+
+<link rel="stylesheet" href="{% static 'css/instructor_dashboard.css' %}">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<div class="sidebar">
+    <div class="logo">🎓 ELP</div>
+    <a href="{% url 'instructor_dashboard' %}">🏠 Dashboard</a>
+</div>
+
+<div class="main">
+
+<h1>Create Assignment for {{ course.title }}</h1>
+
+<form method="POST">
+{% csrf_token %}
+
+<h3>Assignment Details</h3>
+
+{{ assignment_form.as_p }}
+
+<hr>
+
+<h3>Questions</h3>
+
+<div id="questions-container">
+
+    <div class="question-block">
+        <textarea name="question_text" placeholder="Enter Question"></textarea>
+
+        <input type="text" name="option_a" placeholder="Option A">
+        <input type="text" name="option_b" placeholder="Option B">
+        <input type="text" name="option_c" placeholder="Option C">
+        <input type="text" name="option_d" placeholder="Option D">
+
+        <select name="correct_answer">
+            <option value="A">Correct: A</option>
+            <option value="B">Correct: B</option>
+            <option value="C">Correct: C</option>
+            <option value="D">Correct: D</option>
+        </select>
+    </div>
+
+</div>
+
+<br>
+
+<button type="button" onclick="addQuestion()">
+➕ Add Another Question
+</button>
+
+<br><br>
+
+<button type="submit">
+Save Assignment
+</button>
+
+</form>
+
+</div>
+</div>
+
+<script>
+function addQuestion(){
+    const container = document.getElementById("questions-container");
+
+    const block = document.createElement("div");
+
+    block.innerHTML = `
+        <hr>
+        <textarea name="question_text" placeholder="Enter Question"></textarea>
+        <input type="text" name="option_a" placeholder="Option A">
+        <input type="text" name="option_b" placeholder="Option B">
+        <input type="text" name="option_c" placeholder="Option C">
+        <input type="text" name="option_d" placeholder="Option D">
+        <select name="correct_answer">
+            <option value="A">Correct: A</option>
+            <option value="B">Correct: B</option>
+            <option value="C">Correct: C</option>
+            <option value="D">Correct: D</option>
+        </select>
+    `;
+
+    container.appendChild(block);
+}
+</script>
+
+</body>
+</html>

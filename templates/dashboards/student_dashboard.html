@@ -5,273 +5,107 @@
 <meta charset="UTF-8">
 <title>Student Dashboard</title>
 
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-
-body{
-    margin:0;
-    background:#f1f5f9;
-    font-family:'Montserrat', sans-serif;
-}
-
-.dashboard{
-    display:flex;
-    min-height:100vh;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-    width:260px;
-    background:#0f172a;
-    color:white;
-    padding:20px;
-    transition:width .35s ease;
-    display:flex;
-    flex-direction:column;
-}
-
-.sidebar.collapsed{
-    width:85px;
-}
-
-.logo{
-    font-size:24px;
-    font-weight:bold;
-    margin-bottom:35px;
-    text-align:center;
-}
-
-.sidebar.collapsed span{
-    display:none;
-}
-
-.toggle-btn{
-    background:none;
-    border:none;
-    color:white;
-    font-size:26px;
-    cursor:pointer;
-    align-self:flex-end;
-    margin-bottom:15px;
-}
-
-.sidebar a{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    color:white;
-    text-decoration:none;
-    padding:14px;
-    border-radius:10px;
-    margin:8px 0;
-    transition:.25s;
-}
-
-.sidebar.collapsed a{
-    justify-content:center;
-}
-
-.sidebar a:hover{
-    background:#1e293b;
-    transform:translateX(4px);
-}
-
-.logout{
-    margin-top:auto;
-    background:#ef4444;
-}
-
-/* MAIN */
-
-.main{
-    flex:1;
-    padding:45px;
-}
-
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:40px;
-}
-
-.profile-btn{
-    background:#2563eb;
-    color:white;
-    border:none;
-    padding:12px 20px;
-    border-radius:8px;
-    cursor:pointer;
-    font-size:15px;
-}
-
-.profile-card{
-    display:none;
-    background:white;
-    padding:25px;
-    border-radius:14px;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-    margin-bottom:40px;
-}
-
-/* COURSES */
-
-.course-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:30px;
-}
-
-.course-card{
-    background:white;
-    padding:20px;
-    border-radius:14px;
-    box-shadow:0 8px 20px rgba(0,0,0,.05);
-    transition:.3s;
-}
-
-.course-card:hover{
-    transform:translateY(-6px);
-}
-
-.course-card img{
-    width:100%;
-    border-radius:10px;
-    margin-bottom:12px;
-}
-
-.start-btn{
-    display:inline-block;
-    margin-top:10px;
-    background:#2563eb;
-    color:white;
-    padding:8px 14px;
-    border-radius:6px;
-    text-decoration:none;
-}
-
-.start-btn:hover{
-    background:#1d4ed8;
-}
-
-</style>
 </head>
-
 <body>
 
 <div class="dashboard">
 
-<!-- SIDEBAR -->
+    <!-- ================= SIDEBAR ================= -->
+    <div class="sidebar" id="sidebar">
 
-<div class="sidebar" id="sidebar">
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
 
-<button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <div class="logo">ELP</div>
 
-<div class="logo">ELP</div>
+        <a href="{% url 'student_dashboard' %}" class="active">
+            📚 <span>My Courses</span>
+        </a>
 
-<a href="{% url 'student_dashboard' %}">
-📚 <span>My Courses</span>
-</a>
+        <a href="{% url 'courses:explore_courses' %}">
+            🔥 <span>Explore Courses</span>
+        </a>
 
-<a href="{% url 'courses:explore_courses' %}">
-🔥 <span>Explore Courses</span>
-</a>
+        <a href="#">
+            📝 <span>Exams</span>
+        </a>
 
-<a href="#">
-📝 <span>Exams</span>
-</a>
+        <a href="#">
+            🏆 <span>Certificates</span>
+        </a>
 
-<a href="#">
-🏆 <span>Certificates</span>
-</a>
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="logout">🚪 Logout</button>
+        </form>
 
-<form method="POST" action="{% url 'logout' %}">
-{% csrf_token %}
-<button class="logout" style="
-width:100%;
-background:#ef4444;
-color:white;
-border:none;
-padding:12px;
-border-radius:8px;
-cursor:pointer;">
-🚪 Logout
-</button>
-</form>
+    </div>
 
-</div>
+    <!-- ================= MAIN ================= -->
+    <div class="main">
 
-<!-- MAIN -->
+        <div class="topbar">
+            <h1>Welcome, {{ request.user.full_name }} 👋</h1>
 
-<div class="main">
+            <button class="profile-btn" onclick="toggleProfile()">
+                View Profile
+            </button>
+        </div>
 
-<div class="topbar">
-<h1>Welcome, {{ request.user.full_name }} 👋</h1>
+        <!-- PROFILE CARD -->
+        <div class="profile-card" id="profileCard">
+            <h2>Your Profile</h2>
+            <p><strong>Name:</strong> {{ request.user.full_name }}</p>
+            <p><strong>Email:</strong> {{ request.user.email }}</p>
+            <p><strong>Role:</strong> {{ request.user.role }}</p>
+            <p><strong>Register No:</strong> {{ request.user.registration_number }}</p>
+        </div>
 
-<button class="profile-btn" onclick="toggleProfile()">
-View Profile
-</button>
-</div>
+        <h2 class="section-title">Available Courses</h2>
 
-<div class="profile-card" id="profileCard">
-<h2>Your Profile</h2>
+        <div class="course-grid">
 
-<p><strong>Name:</strong> {{ request.user.full_name }}</p>
-<p><strong>Email:</strong> {{ request.user.email }}</p>
-<p><strong>Role:</strong> {{ request.user.role }}</p>
-<p><strong>Register No:</strong> {{ request.user.registration_number }}</p>
-</div>
+            {% for course in courses %}
+            <div class="course-card">
 
-<h2>Available Courses</h2>
+                {% if course.image %}
+                <img src="{{ course.image.url }}" alt="{{ course.title }}">
+                {% endif %}
 
-<div class="course-grid">
+                <h3>{{ course.title }}</h3>
 
-{% for course in courses %}
-<div class="course-card">
+                <p>{{ course.description|truncatechars:80 }}</p>
 
-{% if course.image %}
-<img src="{{ course.image.url }}">
-{% endif %}
+                <p><strong>Tutor:</strong> {{ course.tutor.user.full_name }}</p>
 
-<h3>{{ course.title }}</h3>
+                <a href="{% url 'courses:course_detail' course.id %}">
+                    Start Learning →
+                </a>
 
-<p>{{ course.description|truncatechars:80 }}</p>
+            </div>
+            {% empty %}
+                <p>No courses available.</p>
+            {% endfor %}
 
-<!-- FIXED tutor name -->
-<p><strong>Tutor:</strong> {{ course.tutor.user.full_name }}</p>
+        </div>
 
-<!-- VERY IMPORTANT FIX -->
-<a href="{% url 'courses:course_detail' course.id %}">
-Start Learning →
-</a>
+    </div>
 
-
-</div>
-{% empty %}
-<p>No courses available.</p>
-{% endfor %}
-
-</div>
-
-</div>
 </div>
 
 <script>
-
 function toggleSidebar(){
-document.getElementById("sidebar")
-.classList.toggle("collapsed");
+    document.getElementById("sidebar")
+    .classList.toggle("collapsed");
 }
 
 function toggleProfile(){
-const card = document.getElementById("profileCard");
-
-card.style.display =
-card.style.display === "block" ? "none" : "block";
+    const card = document.getElementById("profileCard");
+    card.style.display =
+    card.style.display === "block" ? "none" : "block";
 }
-
 </script>
 
 </body>

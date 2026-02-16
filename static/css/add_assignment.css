@@ -1,0 +1,26 @@
+.question-block{
+    background:#f5fbfe;
+    padding:15px;
+    border-radius:8px;
+    margin-bottom:15px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+textarea{
+    min-height:70px;
+}
+
+.add-btn{
+    background:#16a34a;
+    color:white;
+    padding:8px 12px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.add-btn:hover{
+    background:#15803d;
+}

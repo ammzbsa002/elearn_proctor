@@ -1,0 +1,46 @@
+.page-title{
+    margin-bottom:20px;
+    color:#2596be;
+}
+
+.add-btn{
+    margin-bottom:20px;
+    display:inline-block;
+}
+
+.assignment-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+.assignment-card{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,.06);
+    transition:.3s;
+}
+
+.assignment-card:hover{
+    transform:translateY(-5px);
+}
+
+.actions{
+    margin-top:10px;
+    display:flex;
+    gap:10px;
+}
+
+.btn.small{
+    padding:6px 10px;
+    font-size:13px;
+}
+
+.btn.danger{
+    background:#ef4444;
+}
+
+.btn.danger:hover{
+    background:#dc2626;
+}

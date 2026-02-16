@@ -1,8 +1,71 @@
-<h2>Add Course</h2>
 
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Course | Instructor</title>
 
-    <button type="submit">Create Course</button>
-</form>
+<link rel="stylesheet" href="{% static 'css/instructor_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/add_course.css' %}">
+
+</head>
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="logo">🎓 ELP</div>
+
+        <a href="{% url 'instructor_dashboard' %}">🏠 <span>Dashboard</span></a>
+        <a href="{% url 'courses:add_course' %}" class="active">➕ <span>Add Course</span></a>
+        <a href="{% url 'courses:instructor_courses' %}">📚 <span>Manage Courses</span></a>
+        <a href="{% url 'assignments:instructor_assignments' %}">🧠 <span>Assignments</span></a>
+
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="logout">🚪 Logout</button>
+        </form>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <h1 class="page-title">Create New Course</h1>
+
+        <div class="form-card">
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Course Title</label>
+                    {{ form.title }}
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    {{ form.description }}
+                </div>
+
+                <div class="form-group">
+                    <label>Course Image</label>
+                    {{ form.image }}
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Create Course
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

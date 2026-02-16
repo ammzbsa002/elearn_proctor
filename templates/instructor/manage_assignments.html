@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Manage Assignments</title>
+<link rel="stylesheet" href="{% static 'css/instructor_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/manage_assignments.css' %}">
+</head>
+<body>
+
+<div class="dashboard">
+
+<div class="sidebar">
+    <div class="logo">🎓 ELP</div>
+    <a href="{% url 'instructor_dashboard' %}">🏠 Dashboard</a>
+    <a href="#" class="active">🧠 Assignments</a>
+</div>
+
+<div class="main">
+
+<h1 class="page-title">
+    Assignments for {{ course.title }}
+</h1>
+
+<a href="{% url 'assignments:add_assignment' course.id %}" class="btn">
+    ➕ Create Assignment
+</a>
+
+<hr>
+
+<div class="assignment-grid">
+
+{% for assignment in assignments %}
+<div class="assignment-card">
+    <h3>{{ assignment.title }}</h3>
+    <p><strong>Due:</strong> {{ assignment.due_date }}</p>
+    <p><strong>Total Marks:</strong> {{ assignment.total_marks }}</p>
+    <p><strong>Questions:</strong> {{ assignment.questions.count }}</p>
+</div>
+{% empty %}
+<p>No assignments created yet.</p>
+{% endfor %}
+
+</div>
+
+</div>
+</div>
+
+</body>
+</html>

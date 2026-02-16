@@ -1,45 +1,82 @@
-<h1>My Courses</h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Courses | Instructor</title>
 
-{% for course in courses %}
+<link rel="stylesheet" href="{% static 'css/instructor_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/instructor_courses.css' %}">
 
-<div style="border:1px solid #ddd;
-            padding:20px;
-            margin-bottom:20px;
-            border-radius:10px;">
+</head>
+<body>
 
-    <h2>{{ course.title }}</h2>
+<div class="dashboard">
 
-    <a href="{% url 'courses:add_module' course.id %}">
-        ➕ Add Module
-    </a>
+    <!-- ===== SIDEBAR ===== -->
+    <div class="sidebar">
+        <div class="logo">🎓 ELP</div>
 
-    <hr>
+        <a href="{% url 'instructor_dashboard' %}">🏠 <span>Dashboard</span></a>
+        <a href="{% url 'courses:add_course' %}">➕ <span>Add Course</span></a>
+        <a href="{% url 'courses:instructor_courses' %}" class="active">📚 <span>Manage Courses</span></a>
+        <a href="{% url 'assignments:instructor_assignments' %}">🧠 <span>Assignments</span></a>
 
-    {% for module in course.modules.all %}
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="logout">🚪 Logout</button>
+        </form>
+    </div>
 
-        <div style="margin-left:20px;">
+    <!-- ===== MAIN ===== -->
+    <div class="main">
 
-            <h4>📘 {{ module.title }}</h4>
+        <h1 class="page-title">My Courses</h1>
 
-            <!-- ⭐ THIS BUTTON IS KEY -->
-            <a href="{% url 'courses:add_lesson' module.id %}">
-                ➕ Add Lesson
-            </a>
+        {% for course in courses %}
+        <div class="course-card">
 
-            <ul>
-                {% for lesson in module.lessons.all %}
-                    <li>{{ lesson.title }}</li>
-                {% empty %}
-                    <li>No lessons yet</li>
-                {% endfor %}
-            </ul>
+            <div class="course-header">
+                <h2>{{ course.title }}</h2>
+
+                <a href="{% url 'courses:add_module' course.id %}" class="btn small">
+                    ➕ Add Module
+                </a>
+            </div>
+
+            {% for module in course.modules.all %}
+            <div class="module-card">
+
+                <div class="module-header">
+                    <h4>📘 {{ module.title }}</h4>
+
+                    <a href="{% url 'courses:add_lesson' module.id %}" class="btn small">
+                        ➕ Add Lesson
+                    </a>
+                </div>
+
+                <ul class="lesson-list">
+                    {% for lesson in module.lessons.all %}
+                        <li>🎬 {{ lesson.title }}</li>
+                    {% empty %}
+                        <li class="empty">No lessons yet</li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+            {% empty %}
+                <p class="empty">No modules added yet.</p>
+            {% endfor %}
 
         </div>
+        {% empty %}
+            <p>No courses created yet.</p>
+        {% endfor %}
 
-    {% empty %}
-        <p>No modules added yet.</p>
-    {% endfor %}
+    </div>
 
 </div>
 
-{% endfor %}
+</body>
+</html>
